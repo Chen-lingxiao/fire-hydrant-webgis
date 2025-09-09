@@ -1,0 +1,44 @@
+<!--pages/PersonalData/PersonalData.wxml-->
+
+<!--pages/user/user.wxml-->
+<view class="wrapper">
+    <view class="top">
+        <view>
+            <view class="avatar">
+                <image style="border-radius:50%;" src="{{imgsrc}}"></image>
+            </view>
+            <view class="text">
+            </view>
+        </view>
+    </view>
+    <view class="bottom">
+        <form bindsubmit="formSubmit" bindreset="formReset">
+            <view class="section">
+                <view class="section__title">用户名</view>
+                <input class="inputtxt" bindblur="bindid" name="name" value="{{Name}}" placeholder="姓名" />
+                <view class="section__title">性别</view>
+                <radio-group  bindchange="bandleChange">
+                    <radio class="radio" value="男" checked="{{manchecked}}">男</radio>
+                    <radio class="radio" value="女" checked="{{falmanchecked}}">女</radio>
+                    <radio class="radio" value="保密" checked="{{checked}}">保密</radio>
+                </radio-group>
+                <picker mode="date" header-text="选择时间" value="{{BirthDate}}" bindchange="bindDateChange">
+                    <view class="inputtxt-birth">
+                        <text class="color3">出生日期：</text>
+                        <input class="inputtxt" name="postbirthDate" value="{{BirthDate}}" />
+                    </view>
+                </picker>
+                <view class="section__title">部门</view>
+                <input class="inputtxt" name="department" value="{{Department}}" placeholder="完善所属部门" />
+                <view class="section__title">联系电话</view>
+                <input class="inputtxt" name="telephone" value="{{Telephone}}" placeholder="完善联系电话" />
+                <view class="section__title">邮箱</view>
+                <input class="inputtxt" name="email" placeholder="完善邮箱" value="{{Email}}" />
+            </view>
+            <view class="btn-area">
+                <button class="btn" formType="submit">保存</button>
+            </view>
+        </form>
+
+    </view>
+</view>

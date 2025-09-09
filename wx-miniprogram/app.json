@@ -1,0 +1,53 @@
+{
+  
+  "pages": [
+    "pages/Map/Map",
+    "pages/Login/Login",
+    "pages/Singup/Singup",
+    "pages/Report/Report",
+    "pages/Scan/Scan",
+    "pages/Hydrants/Hydrants",
+    "pages/User/User",
+    "pages/PersonalData/PersonalData",
+    "pages/Escalaterecords/Escalaterecords"
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息请求调用"
+    }
+  },
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#0094ff",
+    "navigationBarTitleText": "我的应用",
+    "navigationBarTextStyle": "white",
+    "enablePullDownRefresh":true
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/Map/Map",
+        "text": "信息查询",
+        "iconPath": "icon/主页0.png",
+        "selectedIconPath": "icon/主页1.png"
+      },
+      {
+        "pagePath": "pages/Report/Report",
+        "text": "故障上报",
+        "iconPath": "icon/上报1.png",
+        "selectedIconPath": "icon/上报0.png"
+      },
+      {
+      "pagePath": "pages/User/User",
+      "text": "用户",
+      "iconPath": "icon/用户0.png",
+      "selectedIconPath": "icon/用户1.png"
+    }
+  ],
+  "color": "#8a8a8a",
+  "selectedColor": "#0094ff"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

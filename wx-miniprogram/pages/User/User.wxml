@@ -1,0 +1,59 @@
+<!--pages/user/user.wxml-->
+<view class="mine-wrapper">
+    <view class="avatar-wrapper">
+        <view>
+            <view class="avatar">
+                <image style="border-radius:50%;" src="{{imgsrc}}"></image>
+            </view>
+            <view class="text">
+                <text bindtap="toLogin">{{txtbt}}</text>
+            </view>
+        </view>
+    </view>
+    <view class="list-wrapper">
+        <view class="alllists">
+            <view class='content' bindtap="toPersonlData">
+                <view class="listimg">
+                    <image src="../../icon/个人资料.png"></image>
+                </view>
+                <view class="listtext">个人资料</view>
+                <view class="arrows">
+                    <image src="../../icon/指向.png"></image>
+                </view>
+            </view>
+            <!-- 分割线 -->
+            <view class="divLine"></view>
+            <view class='content' bindtap="toEsr">
+                <view class="listimg">
+                    <image src="../../icon/上报记录.png"></image>
+                </view>
+                <view class="listtext" >上报记录</view>
+                <view class="arrows">
+                    <image src="../../icon/指向.png"></image>
+                </view>
+            </view>
+            <!-- 分割线 -->
+            <view class="divLine"></view>
+            <view class='content' bindtap="toPersonalData">
+                <view class="listimg">
+                    <image src="../../icon/帮助信息.png"></image>
+                </view>
+                <view class="listtext" bindtap="helpinfo">帮助信息</view>
+                <view class="arrows">
+                    <image src="../../icon/指向.png"></image>
+                </view>
+            </view>
+            <!-- 分割线 -->
+            <view class="divLine"></view>
+            <view class='content' bindtap="logout">
+                <view class="listimg">
+                    <image src="../../icon/用户注销.png"></image>
+                </view>
+                <view class="listtext">退出用户</view>
+                <view class="arrows">
+                    <image src="../../icon/指向.png"></image>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

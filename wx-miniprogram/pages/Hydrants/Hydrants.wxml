@@ -1,0 +1,52 @@
+<!--pages/Hydrants/Hydrants.wxml-->
+<!--pages/Scan/Scan.wxml-->
+<view class="section">
+    <view class="hydrantsinfo">
+        <view class="infotitle">消防栓信息</view>
+        <view class="divLine"></view>
+        <view class="info-left">
+            <view class="txt">消防栓编号:</view>
+            <view class="txt" >当前状态:</view>
+            <view class="txt" >当前压力:</view>
+            <view class="txt" >安装日期:</view>
+            <view class="txt" > 安装地址:</view>
+        </view>
+        <view class="info-right">
+            <view class="infotxt">{{HydrantId}}</view>
+            <view class="infotxt">{{currentStatus}}</view>
+            <view class="infotxt">{{currentPressure}}MPa</view>
+            <view class="infotxt">{{installDate}}</view>
+            <view class="infotxt">{{installAddress}}</view>
+        </view>
+    </view>
+    <view class="compinfo">
+        <view class="infotitle">生产厂商信息</view>
+        <view class="divLine"></view>
+        <view class="compinfo-center">
+            <view class="compinfo-left">
+                <view class="txt" >厂商名称:</view>
+                <view class="txt" >厂商地址:</view>
+            </view>
+            <view class="compinfo-right">
+                <view class="infotxt">{{CompaniesName}}</view>
+                <view class="infotxt">{{CompaniesAddress}}</view>
+            </view>
+        </view>
+        <view class="divLine"></view>
+        <view class="compinfo-bottom">
+            <view class="compinfo-bottom-left">
+                <view class="txt">联系人:</view>
+                <view class="txt">电话:</view>
+                <view class="txt">邮箱:</view>
+            </view>
+            <view class="compinfo-bottom-right">
+                <view class="infotxt" >{{CompaniesContacts}}</view>
+                <view class="infotxt" >{{CompaniesTelephone}}</view>
+                <view class="infotxt">{{Companiesemail}}</view>
+            </view>
+        </view>
+    </view>
+    <view class="btn-area">
+        <button  class="btn" bindtap="tomap">返回</button>
+    </view>
+</view>

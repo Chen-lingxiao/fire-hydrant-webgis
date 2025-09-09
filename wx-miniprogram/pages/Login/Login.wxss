@@ -1,0 +1,77 @@
+/* pages/Login/Login.wxss */
+.top {
+    height: 10vh;
+}
+
+.ipt {
+    margin-left: 20rpx;
+    margin-top: 10%;
+    height: 50%;
+    padding-top: 5rpx;
+    padding-bottom: 5rpx;
+    padding-left: 10rpx;
+    margin: 30%;
+}
+.btn1 {
+    position: absolute;
+    margin-top: 10vw;
+    height: 25vw;
+    left: 25vw;
+    background-color: transparent;   /*按钮透明*/ 
+    border:none;				/*设置按钮边框*/
+    
+}
+.wxtxt{
+    position: absolute;
+    top: 67%;
+    left: 36.5vw;
+    color: rgb(150, 144, 144);
+}
+.loginbtn {
+    text-align: center;
+    height: 80rpx;
+    line-height: 80rpx;
+    margin: 80rpx auto 20rpx;
+    border-radius: 10rpx;
+    background: linear-gradient(to right, #66ded0, #229dfe);
+}
+.btnImg {
+    width:20vw;
+    height: 20vw;
+}
+.inputun {
+    position: absolute;
+    border-color: rgb(86, 206, 214);
+    border-style: ridge;
+    border-radius: 5%;
+    left: 15%;
+    width: 70%;
+    height: 5vh;
+}
+
+.inputpd {
+    position: absolute;
+    margin-top: 15%;
+    border-color: rgb(86, 206, 214);
+    border-style: ridge;
+    border-radius: 5%;
+    left: 15%;
+    width: 70%;
+    height: 5vh;
+}
+
+.singup {
+    color: rgb(0, 198, 248);
+}
+
+.r-wrap,
+.agreement {
+    padding: 0 100rpx;
+}
+
+.txt {
+    position: absolute;
+    color: rgb(192, 187, 187);
+    top: 62%;
+    left: 28vw;
+}

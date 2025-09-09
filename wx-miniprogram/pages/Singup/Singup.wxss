@@ -1,0 +1,41 @@
+/* pages/Singup/Singup.wxss */
+/* pages/Report/Report.wxss */
+.section{
+    position: absolute;
+    top: 10%;
+    left: 15%;
+    width: 70%;
+    margin-top:5%;
+}
+.txt{
+    position: absolute;
+}
+.title{
+    margin-top: 3%;
+    font-size: 5vh;
+    text-align: center;
+    color: rgb(24, 181, 243);
+}
+.btn-area{
+    position:absolute;
+    bottom: 200px;
+    width: 100%;
+}
+.btn{
+    width: 100%;
+    margin-top: 30rpx;
+    background-color: rgb(30, 118, 190);
+    color: white;
+    border-radius: 98rpx;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.inputtxt{
+    height: 4vh;
+    margin-top: 10%;
+    border-color: rgb(86, 206, 214);
+    border-style: ridge;
+    border-radius: 5%;
+}

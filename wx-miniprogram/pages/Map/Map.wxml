@@ -1,0 +1,6 @@
+<!--pages/Map/Map.wxml-->
+<view class="page-all" style="flex-direction:column;">
+        <view class="page-map">
+                <web-view src="http://127.0.0.1:5500/pages/index.html"></web-view>
+        </view>
+</view>

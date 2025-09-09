@@ -1,0 +1,21 @@
+<!--pages/Login/Login.wxml-->
+<view class="">
+    <view class="top">
+    </view>
+    <view class="ipt">
+        <input type="text" bindblur="getUserName" value="{{uname}}" placeholder="请输入用户名" class="inputun" maxlength="8" ></input>
+        <input type="password" bindblur="getPassword" placeholder="请输入密码" class="inputpd"  maxlength="16" ></input>
+    </view>
+</view>
+
+<view class="r-wrap">
+    <view class="loginbtn" bindtap="loginGO">登录</view>
+    <button class='btn1' bindtap="getUserInfo" >
+        <image class='btnImg' src='../../icon/微信.png'></image>
+    </button>
+    <view class="">
+        <text class="">没有账号？</text>
+        <text class="singup" bindtap="goRedirect"> 快速注册 </text>
+    </view>
+    <text class="wxtxt">微信快速登陆</text>
+</view>

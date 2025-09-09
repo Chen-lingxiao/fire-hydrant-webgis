@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间绑定UserMapper接口-->
+<mapper namespace="com.example.fire_hydrant_management.mapper.UsersMapper">
+    <!-- 这里不需要定义register和login方法，因为已经在UsersServiceImpl中实现 -->
+    <!-- MyBatis-Plus的BaseMapper已经提供了基本的CRUD操作 -->
+    <!--注册功能-->
+<!--    <select id="register" resultType="boolean">-->
+<!--        INSERT INTO "users"("name", "password", "sex", "birth_date", "department", "telephone", "email","role")-->
+<!--        VALUES (#{name}, #{password}, #{sex}, #{birthDate}, #{department}, #{telephone}, #{email}, 'USER')-->
+<!--        &lt;!&ndash; 固定插入默认角色USER &ndash;&gt;-->
+<!--    </select>-->
+<!--    &lt;!&ndash; 登录功能&ndash;&gt;-->
+<!--    <select id="login" resultType="com.example.fire_hydrant_management.entity.Users">-->
+<!--        SELECT * FROM "users" WHERE "name" = #{name} AND "password" = #{password}-->
+<!--    </select>-->
+</mapper>

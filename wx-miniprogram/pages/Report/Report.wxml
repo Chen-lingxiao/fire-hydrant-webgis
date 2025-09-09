@@ -1,0 +1,21 @@
+<!--pages/Report/Report.wxml-->
+<form bindsubmit="formSubmit" bindreset="formReset">
+    <view class="section">
+        <view class="section__title_must">消防栓编号*</view>
+        <input class="inputtxt" bindblur="bindid" name="hydrantId" value="{{hydrantId}}" placeholder="SJ-1001" />
+        <view class="section__title_must">故障描述*</view>
+        <textarea class="inputguzhang" name="faultDesc" placeholder="请输入故障情况" value="{{faultDesc}}">
+        </textarea>
+        <view class="section__title">上报用户</view>
+        <input class="inputtxt" name="reporterName" value="{{reporterName}}" placeholder="请输入用户名" />
+        <view class="section__title">联系电话</view>
+        <input class="inputtxt" name="reporterTelephone" value="{{reporterTelephone}}" placeholder="请输入联系电话" />
+        <view class="section__title">备注</view>
+        <textarea class="inputbeizhu" name="remark" placeholder="请输入备注" value="{{remark}}"></textarea>
+        <view class="section__title_must">注意！带*为必填字段</view>
+    </view>
+    <view class="btn-area">
+        <button class="btn" bindtap="scan">扫一扫获取ID</button>
+        <button class="btn" formType="submit">提交</button>
+    </view>
+</form>

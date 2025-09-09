@@ -1,0 +1,12 @@
+<!--pages/Singup/Singup.wxml-->
+<form bindsubmit="formSubmit" bindreset="formReset">
+    <view class="section">
+        <view class="title">注册账户</view>
+        <input class = "inputtxt" name="name" value="{{name}}" placeholder="请输入用户名" />
+        <input class = "inputtxt" name="password" value="{{password}}" placeholder="请输入密码" />
+        <input class = "inputtxt" name="telephone" value="{{telephone}}"placeholder="请输入手机号码" />
+    </view>
+    <view class="btn-area">
+        <button  class="btn" formType="submit">注册</button>
+    </view>
+</form>

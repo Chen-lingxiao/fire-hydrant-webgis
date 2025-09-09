@@ -1,0 +1,56 @@
+/* pages/Report/Report.wxss */
+page {
+    background-color: #F6F6F6;
+}
+.section{
+    position: absolute;
+    top: 10%;
+    left: 15%;
+    width: 70%;
+    box-shadow: 0px 0px 5px rgba(46, 141, 219, 0.15);
+}
+.section__title{
+    margin-top: 3%;
+    font-size: 16px;
+    color: rgb(0, 0, 0);
+}
+.section__title_must{
+    margin-top: 3%;
+    font-size: 16px;
+    color: rgb(214, 60, 60);
+}
+.btn-area{
+    position:absolute;
+    bottom: 50px;
+    width: 100%;
+}
+.btn{
+    width: 100%;
+    margin-top: 30rpx;
+    background-color: rgb(30, 118, 190);
+    color: white;
+    border-radius: 98rpx;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.inputtxt{
+    margin-top: 2%;
+    border: 3rpx solid rgb(86, 206, 214);
+    border-radius: 2vw;
+}
+.inputguzhang{
+    margin-top: 2%;
+    height: 10vh;
+    width: 70vw;
+    border: 3rpx solid rgb(86, 206, 214);
+    border-radius: 2vw;
+}
+.inputbeizhu{
+    margin-top: 2%;
+    height: 8vh;
+    width: 70vw;
+    border: 3rpx solid rgb(86, 206, 214);
+    border-radius: 2vw;
+}

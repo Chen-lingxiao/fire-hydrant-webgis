@@ -1,0 +1,103 @@
+/* pages/PersonalData/PersonalData.wxss */
+.section{
+    position: absolute;
+    top: 28%;
+    left: 15%;
+    width: 70%;
+}
+.section__title{
+    margin-top: 3%;
+    font-size: 16px;
+    color: rgb(0, 0, 0);
+}
+.section__title_must{
+    margin-top: 3%;
+    font-size: 16px;
+    color: rgb(214, 60, 60);
+}
+.btn-area{
+    position:absolute;
+    bottom: 50px;
+    width: 100%;
+}
+.btn{
+    width: 100%;
+    margin-top: 30rpx;
+    background-color: rgb(30, 118, 190);
+    color: white;
+    border-radius: 98rpx;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.inputtxt{
+    margin-top: 2%;
+    border: 3rpx solid rgb(86, 206, 214);
+    border-radius: 2vw;
+}
+.wrapper{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+}
+.top{
+    background: #0b7ce6;
+    padding: 25px 0;
+    height: 18%;
+}
+.top .avatar {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.top .avatar image {
+    width: 100px;
+    height: 100px;
+}
+
+.avatar-wrapper .text {
+    text-align: center;
+    color: #fff;
+}
+.bottom{
+    background-color: #363e44;
+    width: 100%;
+}
+/*分割线样式*/
+.divLine {
+    background: #E0E3DA;
+    width: 100%;
+    height: 5rpx;
+}
+
+.from {
+    margin-top: 5vh;
+}
+
+.text {
+    margin-top: 2vh;
+    left: 20vw;
+    font-size: 18px;
+}
+
+.birthdaytext {
+    position: absolute;
+    top: 60vw;
+    left: 20vw;
+    font-size: 18px;
+}
+
+.input {
+    position: absolute;
+    margin-top: 2vh;
+    width: 50vw;
+    left: 40vw;
+    border: 1px solid #1b82d1;
+    border-radius: 5px;
+}
+.radio{
+    margin-left: 5vw;
+}
+/* user.wxss */
