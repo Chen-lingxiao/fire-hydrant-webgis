@@ -5,6 +5,7 @@ Based on the repository structure and components provided, here's the README.md 
 # Fire Hydrant WebGIS
 
 这是一个基于WebGIS的消防栓管理系统，结合了前端可视化地图交互、后端数据管理、微信小程序移动端应用，旨在提供高效的消防栓信息查询与运维支持。
+
 开发流程文档为语雀导出，md格式稍微有点问题，语雀在线：https://www.yuque.com/lingxiao-yugup/cm3baa/ylx3vrpvlhx65kuc?singleDoc# 《开发手册》
 
 ## 项目结构
