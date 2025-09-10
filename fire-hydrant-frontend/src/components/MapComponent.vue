@@ -1,15 +1,11 @@
+引用
 <script lang="ts" setup>
 import { onMounted, ref, onUnmounted, watch } from 'vue'
 import mapboxgl from 'mapbox-gl'
 import type { StyleSpecification } from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { useMapStore } from '@/stores/index' //导入状态管理
-import {
-  addFeatures,
-  loadFeatures,
-  updateFeatures,
-  deleteFeatures,
-} from '@/api/geoserver' //geoserver要素API
+import { loadFeatures, editFeatures } from '@/api/geoserver' //geoserver要素API
 import * as echarts from 'echarts'
 // 导入 Element Plus 表单类型
 import type { FormInstance } from 'element-plus'
@@ -130,7 +126,8 @@ const handleEditClick = async () => {
           }
         )
         console.log('点击了确认退出按钮')
-        stopAddMode() // 停止添加模式
+        isAddingMode.value = false // 停止添加模式
+        resetEditData()
         isEditingMode.value = newEditingState // 设置新状态
       } catch {
         console.log('点击了取消按钮')
@@ -150,7 +147,8 @@ const handleEditClick = async () => {
           }
         )
         console.log('点击了确认退出按钮')
-        stopUpdateMode() // 停止更新模式
+        isUpdatingMode.value = false
+        resetEditData() // 停止更新模式
         isEditingMode.value = newEditingState // 设置新状态
       } catch {
         console.log('点击了取消按钮')
@@ -170,7 +168,8 @@ const handleEditClick = async () => {
           }
         )
         console.log('点击了确认退出按钮')
-        stopDeleteMode() // 停止删除模式
+        isDeletingMode.value = false
+        resetEditData() // 停止删除模式
         isEditingMode.value = newEditingState // 设置新状态
       } catch {
         console.log('点击了取消按钮')
@@ -180,9 +179,28 @@ const handleEditClick = async () => {
     } else {
       isEditingMode.value = newEditingState // 设置新状态
       ElMessage.error('当前状态: 关闭编辑模式')
+      loadGeoJSONData()
     }
   }
   updateMapCursor() // 更新鼠标样式
+}
+const resetEditData = () => {
+  // 1. 清空添加模式下的临时要素数据
+  if (tempGeoJSONData.value.features.length > 0) {
+    tempGeoJSONData.value.features = []
+  }
+  // 2. 清空添加时存储的临时坐标
+  tempCoordinates.value = null
+  // 3. 关闭可能未关闭的要素编辑弹窗
+  if (showEditFeatureDialog.value) {
+    showEditFeatureDialog.value = false
+  }
+  // 4. 清空更新模式下的要素选中状态
+  selectedFeature.value = null
+  selectedFeatureCoord.value = null
+  selectedProperties.value = {} as HydrantProperties // 按接口类型重置空对象
+  // 5. 重新加载原始数据，确保地图显示与正式数据源一致
+  loadGeoJSONData()
 }
 // 事件：点击添加按钮
 const handleAddClick = () => {
@@ -190,31 +208,24 @@ const handleAddClick = () => {
   if (isAddingMode.value) {
     ElMessage.primary('请在地图上点击添加新点')
     currentOptions.value = 'insert'
-    stopUpdateMode()
-    stopDeleteMode()
+    isUpdatingMode.value = false
+    isDeletingMode.value = false
+    resetEditData()
   } else {
-    stopAddMode()
-  } // 关闭添加模式
+    isAddingMode.value = false // 关闭添加模式
+  }
   updateMapCursor() // 同步光标
 }
 
-// 方法：停止添加模式
-const stopAddMode = () => {
-  isAddingMode.value = false
-  if (tempGeoJSONData.value.features.length > 0) {
-    // 如果有临时数据，则保存并清空
-    tempGeoJSONData.value.features = []
-  }
-  loadGeoJSONData() // 重新加载地图要素
-}
 // 方法：点击更新按钮
 const handleUpdateClick = async () => {
   isUpdatingMode.value = !isUpdatingMode.value
   if (isUpdatingMode.value) {
     ElMessage.primary('请在地图上点击需要修改的要素')
+    isAddingMode.value = false
+    isDeletingMode.value = false
     currentOptions.value = 'update'
-    stopAddMode() // 停止添加模式
-    stopDeleteMode() // 停止删除模式
+    resetEditData()
   } else {
     ElMessage.success('已停止更新模式')
     isUpdatingMode.value = false
@@ -222,24 +233,20 @@ const handleUpdateClick = async () => {
   }
   updateMapCursor()
 }
-const stopUpdateMode = () => {
-  isUpdatingMode.value = false
-}
+
 // 方法：点击删除按钮
 const handleDeleteClick = async () => {
   isDeletingMode.value = !isDeletingMode.value
   if (isDeletingMode.value) {
     ElMessage.primary('请在地图上点击需要删除的要素')
     currentOptions.value = 'delete'
-    stopUpdateMode()
-    stopAddMode()
+    isAddingMode.value = false // 停止添加模式
+    isUpdatingMode.value = false // 停止更新模式
+    resetEditData() // 重置编辑数据
   } else {
-    // 停止删除模式
+    isDeletingMode.value = false // 停止删除模式
   }
   updateMapCursor()
-}
-const stopDeleteMode = () => {
-  isDeletingMode.value = false
 }
 // 方法：创建单个marker标记
 const creatMarker = (feature: GeoJSON.Feature): mapboxgl.Marker | null => {
@@ -252,7 +259,13 @@ const creatMarker = (feature: GeoJSON.Feature): mapboxgl.Marker | null => {
     // 使用第一个点作为标记位置
     coordinates = feature.geometry.coordinates[0] as [number, number]
   }
+  // 处理Point类型
+  else if (feature.geometry.type === 'Point') {
+    coordinates = feature.geometry.coordinates as [number, number]
+  }
+
   if (!coordinates) {
+    console.log('无法从要素中提取坐标:', feature)
     return null
   }
   // 创建自定义HTML元素作为标记
@@ -268,14 +281,16 @@ const creatMarker = (feature: GeoJSON.Feature): mapboxgl.Marker | null => {
         ? '#F44336'
         : '#4CAF50'
   markerHtml.textContent = `ID:${feature.id} ` // 显示要素ID
-  return new mapboxgl.Marker({
-    element: markerHtml, // 使用自定义HTML元素作为标记
-    anchor: 'bottom', // 设置锚点为底部
+  const marker = new mapboxgl.Marker({
+    element: markerHtml,
+    anchor: 'bottom',
   })
     .setLngLat(coordinates)
     .addTo(map as mapboxgl.Map)
+  // 添加自定义属性存储feature.id，通过HTMLElement的dataset属性
+  marker.getElement().dataset.featureId = String(feature.id)
+  return marker
 }
-
 // 方法：加载GeoJSON数据
 const loadGeoJSONData = async () => {
   try {
@@ -364,12 +379,11 @@ const addGeoJSONToMap = () => {
       const marker = creatMarker(feature)
       // 只有成功创建标记时才添加到数组和地图
       if (marker) {
+        // 给marker添加自定义属性存储feature.id
         markers.push(marker)
       }
     }
   })
-  // }
-
   // 更新 echarts 图表数据
   updateECharts()
 }
@@ -423,14 +437,33 @@ const handleFeatureClickForInfo = (e: mapboxgl.MapMouseEvent) => {
   console.log('当前点击要素:', selectedFeature.value)
   console.log('当前点击要素属性:', selectedProperties.value)
 }
+// 处理点击要素添加
+const handleFeatureClickForAdd = async (e: mapboxgl.MapMouseEvent) => {
+  if (!map || !isAddingMode.value) return // 非添加模式不执行
 
+  // 1. 获取点击位置的经纬度（Mapbox 坐标格式）
+  tempCoordinates.value = e.lngLat.toArray() as [number, number]
+
+  // 3. 重置表单（清空旧数据）
+  FeatureForm.value = {
+    id: '',
+    currentStatus: '',
+    currentPressure: 0.0,
+    managementUnit: '',
+    installationDate: '',
+    managementUserNo: '',
+  }
+  // 3.显示弹窗
+  showEditFeatureDialog.value = true
+  console.log('当前编辑状态:', currentOptions.value)
+}
 // 处理 点击要素更新
 const handleFeatureClickForUpdate = async (e: mapboxgl.MapMouseEvent) => {
   if (!map || !isUpdatingMode.value) return // 非更新模式不执行
   GetClickFeature(e)
   console.log('当前点击更新要素:', selectedFeature.value)
   console.log('当前点击更新要素属性:', selectedProperties.value)
-  // 3. 重置表单数据为当前选中要素属性，并显示弹窗
+  // 重置表单数据为当前选中要素属性，并显示弹窗
   if (selectedFeature.value) {
     FeatureForm.value = {
       id: String(selectedFeature.value.id || ''),
@@ -442,6 +475,7 @@ const handleFeatureClickForUpdate = async (e: mapboxgl.MapMouseEvent) => {
       managementUserNo: selectedProperties.value.managementUserNo || '',
     }
     showEditFeatureDialog.value = true
+    console.log('当前编辑状态:', currentOptions.value)
   }
 }
 // 处理点击要素删除
@@ -487,8 +521,18 @@ const HandleDeleteFeature = async () => {
   }
   // 2. 更新临时数据并刷新地图
   tempGeoJSONData.value.features.push(deleteFeature)
-
-  // 3. 更新地图渲染：合并原始数据和临时数据，确保所有要素都显示在地图上
+  // 4. 删除要素删除marker
+  tempGeoJSONData.value.features.forEach((feature: GeoJSON.Feature) => {
+    // 根据自定义属性匹配marker id
+    if (markers.length > 0) {
+      markers.forEach((marker) => {
+        if (marker.getElement().dataset.featureId === String(feature.id)) {
+          marker.remove()
+        }
+      })
+    }
+  })
+  // 5. 更新地图渲染：合并原始数据和临时数据，确保所有要素都显示在地图上
   const source = map?.getSource('hydrants')
   if (source && 'setData' in source) {
     const allFeatures: GeoJSON.Feature[] = [...geoJSONData.value.features] // 创建一个包含所有要素的新数据集
@@ -505,29 +549,12 @@ const HandleDeleteFeature = async () => {
     }
     ;(source as mapboxgl.GeoJSONSource).setData(combinedData)
   }
-  // 5. 交互反馈：关闭弹窗，提示用户“需点击保存提交更改”
+  // 6. 交互反馈：关闭弹窗，提示用户“需点击保存提交更改”
   ElMessage.success('修改成功，点击保存提交更改')
   showEditFeatureDialog.value = false
   updateMapCursor()
 }
-// 处理点击要素添加
-const handleFeatureClickForAdd = async (e: mapboxgl.MapMouseEvent) => {
-  if (!map || !isAddingMode.value) return // 非添加模式不执行
 
-  // 1. 获取点击位置的经纬度（Mapbox 坐标格式）
-  tempCoordinates.value = e.lngLat.toArray() as [number, number]
-
-  // 3. 重置表单（清空旧数据）并显示弹窗
-  FeatureForm.value = {
-    id: '',
-    currentStatus: '',
-    currentPressure: 0.0,
-    managementUnit: '',
-    installationDate: '',
-    managementUserNo: '',
-  }
-  showEditFeatureDialog.value = true
-}
 // 处理表单提交
 const handleFeatureFormSubmit = async (operation: 'insert' | 'update') => {
   // 1. 表单验证：调用 Element Plus 表单验证方法，不通过则终止
@@ -539,20 +566,21 @@ const handleFeatureFormSubmit = async (operation: 'insert' | 'update') => {
     return
   }
   if (operation === 'insert') {
-    HandleAddFeatureFormSubmit()
+    handleAddFeatureFormSubmit()
   } else if (operation === 'update') {
-    HandleUpdateFeatureFormSubmit()
+    handleUpdateFeatureFormSubmit()
   }
   updateMapCursor()
 }
 
 // 处理添加要素表单提交
-const HandleAddFeatureFormSubmit = async () => {
+const handleAddFeatureFormSubmit = async () => {
+  console.log('点击了添加提交:')
   if (!tempCoordinates.value) {
     ElMessage.error('请先在地图上选择位置')
     return
   }
-  // 3. 创建临时要素：生成临时 ID（时间戳避免冲突），构造 GeoJSON 格式
+  // 1. 创建临时要素：生成临时 ID（时间戳避免冲突），构造 GeoJSON 格式
   const newFeature: GeoJSON.Feature = {
     type: 'Feature',
     id: `temp_${Date.now()}`, // 临时 ID：避免与正式数据 ID 冲突
@@ -567,14 +595,13 @@ const HandleAddFeatureFormSubmit = async () => {
     },
   }
 
-  // 4. 更新临时数据：将新要素添加到临时数据源（temp_GeOJSONData）
+  // 2. 更新临时数据：将新要素添加到临时数据源（tempGeoJSONData）
   tempGeoJSONData.value.features.push(newFeature)
 
-  // 5. 更新地图渲染：合并原始数据和临时数据，确保所有要素都显示在地图上
+  // 3. 更新地图渲染：合并原始数据和临时数据，确保所有要素都显示在地图上
   const source = map?.getSource('hydrants')
   if (source && 'setData' in source) {
     // 创建一个包含所有要素的新数据集
-    // 从原始数据开始
     const allFeatures: GeoJSON.Feature[] = [...geoJSONData.value.features]
 
     // 添加临时数据（包括新增和修改的要素）
@@ -587,20 +614,21 @@ const HandleAddFeatureFormSubmit = async () => {
     ;(source as mapboxgl.GeoJSONSource).setData(combinedData)
   }
 
-  // 6. 创建自定义标记：调用前文的 creatMarker 方法，添加到地图和标记数组
+  // 4. 创建自定义标记：调用前文的 creatMarker 方法，添加到地图和标记数组
   const marker = creatMarker(newFeature)
   if (marker) {
     markers.push(marker)
-    marker.addTo(map as mapboxgl.Map)
   }
 
-  // 7. 交互反馈：关闭弹窗，提示用户“需点击保存提交更改”
+  // 5. 交互反馈：关闭弹窗，提示用户"需点击保存提交更改"
   ElMessage.success('添加成功，点击保存提交更改')
   showEditFeatureDialog.value = false
+  updateMapCursor()
 }
 
 // 处理更新要素表单提交
-const HandleUpdateFeatureFormSubmit = async () => {
+const handleUpdateFeatureFormSubmit = async () => {
+  console.log('点击更新提交')
   if (!selectedFeature.value) return
   // 1. 创建更新临时要素
   const updatedFeature: GeoJSON.Feature = {
@@ -619,12 +647,28 @@ const HandleUpdateFeatureFormSubmit = async () => {
 
   // 2. 更新临时数据：将修改要素替换到临时数据中
   tempGeoJSONData.value.features.push(updatedFeature)
-
-  // 3. 更新地图渲染：合并原始数据和临时数据，确保所有要素都显示在地图上
+  // 3. 为修改的每个要素重新创建marker
+  tempGeoJSONData.value.features.forEach((feature: GeoJSON.Feature) => {
+    // 清除markers数组中的旧标记
+    if (markers.length > 0) {
+      markers.forEach((marker) => {
+        if (marker.getElement().dataset.featureId === String(feature.id)) {
+          marker.remove()
+        }
+      })
+    }
+  })
+  const marker = creatMarker(updatedFeature)
+  console.log(marker)
+  // 只有成功创建标记时才添加到数组和地图
+  if (marker) {
+    markers.push(marker)
+    marker.addTo(map as mapboxgl.Map)
+  }
+  // 4. 更新地图渲染：合并原始数据和临时数据，确保所有要素都显示在地图上
   const source = map?.getSource('hydrants')
   if (source && 'setData' in source) {
     // 创建一个包含所有要素的新数据集
-    // 从原始数据开始
     const allFeatures: GeoJSON.Feature[] = [...geoJSONData.value.features]
     // map方法遍历tempGeoJSONData.value.features数组，提取每个要素的id属性
     const editFeatureIds = tempGeoJSONData.value.features.map((f) => f.id)
@@ -633,29 +677,20 @@ const HandleUpdateFeatureFormSubmit = async () => {
       (feature) => !editFeatureIds.includes(feature.id)
     )
 
-    // 将原始未修改的要素和已修改的要素组合在了一起
+    // 将原始筛选出的未修改的要素和已修改的要素组合在一起
     const combinedData: GeoJSON.FeatureCollection = {
       type: 'FeatureCollection',
       features: [...filteredFeatures, ...tempGeoJSONData.value.features],
     }
-
+    console.log(combinedData)
     // 更新地图数据源
     ;(source as mapboxgl.GeoJSONSource).setData(combinedData)
   }
 
-  // 4. 创建自定义标记：调用前文的 creatMarker 方法，添加到地图和标记数组
-  // 先移除旧的标记（如果存在
-
-  // 添加新的标记
-  const marker = creatMarker(updatedFeature)
-  if (marker) {
-    markers.push(marker)
-    marker.addTo(map as mapboxgl.Map)
-  }
-
-  // 5. 交互反馈：关闭弹窗，提示用户“需点击保存提交更改”
-  showEditFeatureDialog.value = false
+  // 5. 交互反馈：关闭弹窗，提示用户"需点击保存提交更改"
   ElMessage.success('修改成功，点击保存提交更改')
+  showEditFeatureDialog.value = false
+  updateMapCursor()
 }
 // 保存所有更改（区分新增/更新/删除）
 const saveChanges = async (operation: 'insert' | 'update' | 'delete') => {
@@ -664,14 +699,17 @@ const saveChanges = async (operation: 'insert' | 'update' | 'delete') => {
     ElMessage.info('正在保存数据...')
     switch (operation) {
       case 'insert':
-        await addFeatures(tempGeoJSONData.value.features) // 调用后端 API 添加数据
-        console.log('调用了addFeatures接口')
+        await editFeatures(tempGeoJSONData.value.features, 'insert')
+        console.log('执行新增 insert 操作')
         break
       case 'update':
-        await updateFeatures(tempGeoJSONData.value.features) // 调用后端 API 更新数据
+        await editFeatures(tempGeoJSONData.value.features, 'update')
+        console.log('执行更新 update 操作')
         break
       case 'delete':
-        await deleteFeatures(tempGeoJSONData.value.features) // 调用后端 API 删除数据
+        await editFeatures(tempGeoJSONData.value.features, 'delete')
+        console.log('执行删除 delete 操作')
+        break
     }
     ElMessage.success('数据保存成功')
     // 保存成功后，清空临时数据并重新加载正式数据（更新地图显示）
@@ -921,8 +959,8 @@ onMounted(() => {
     // 只在添加模式下处理地图点击事件
     if (isAddingMode.value) {
       handleFeatureClickForAdd(e)
-      showFeatureInfo.value = false
     }
+    showFeatureInfo.value = false // 点击地图空白区域时关闭hydrants-layer图层信息弹窗
   })
   // 监听hydrants-layer图层点击事件
   map.on('click', 'hydrants-layer', (e) => {
@@ -1086,12 +1124,13 @@ defineExpose({
           >{{ isAddingMode ? '结束添加' : '添加要素' }}</el-button
         >
 
-        <!-- 要素删除/更新按钮：当前绑定了 handleAddClick（代码笔误，需改为对应删除/更新方法） -->
+        <!-- 要素更新按钮：根据 isUpdatingMode 切换文本和类型 -->
         <el-button
           :type="isUpdatingMode ? 'danger' : 'primary'"
           @click="handleUpdateClick()"
           >{{ isUpdatingMode ? '结束更新' : '更新要素' }}</el-button
         >
+        <!-- 要素删除按钮：根据 isDeletingMode 切换文本和类型 -->
         <el-button
           :type="isDeletingMode ? 'danger' : 'primary'"
           @click="handleDeleteClick()"
@@ -1111,7 +1150,7 @@ defineExpose({
 
     <el-dialog
       :title="
-        isAddingMode ? '添加要素信息' : '删除要素信息 id:' + selectedFeature?.id
+        isAddingMode ? '添加要素信息' : '更新要素信息 id:' + selectedFeature?.id
       "
       v-model="showEditFeatureDialog"
       width="400px"
@@ -1254,5 +1293,10 @@ defineExpose({
 
 .custom-marker::after {
   content: '';
+}
+.el-dialog {
+  position: relative;
+  left: 18%;
+  top: 15%;
 }
 </style>

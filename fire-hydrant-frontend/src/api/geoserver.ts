@@ -37,24 +37,12 @@ export const loadFeatures = async (): Promise<GeoJSON.FeatureCollection> => {
   }
 }
 
-// 新增要素
-export const addFeatures = async (features: GeoJSON.Feature[]) => {
-  return await editFeatures(features, 'insert')
-}
-// 更新要素
-export const updateFeatures = async (features: GeoJSON.Feature[]) => {
-  return await editFeatures(features, 'update')
-}
-// 删除要素
-export const deleteFeatures = async (features: GeoJSON.Feature[]) => {
-  return await editFeatures(features, 'delete')
-}
 /**
  * 通用要素编辑函数（统一处理Insert/Update/Delete操作）
  * @param features 要素数据（根据操作类型提供不同字段）
  * @param operation 操作类型：insert/update/delete
  */
-const editFeatures = async (
+export const editFeatures = async (
   features: GeoJSON.Feature[],
   operation: 'insert' | 'update' | 'delete'
 ) => {
