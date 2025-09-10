@@ -37,7 +37,7 @@ const toRepwd = () => {
   <header class="header">
     <!-- logo -->
     <div class="header-logo">
-      <img src="../assets/logo.png" alt="" />
+      <img src="../assets/icons/logo.png" alt="" />
       <span class="logo-text">市政消防栓管理系统</span>
       <span class="logo-version">0.0.1</span>
     </div>
