@@ -10,6 +10,10 @@ const LAYER_INFO = {
   geomField: 'geom', // 几何字段名
 }
 // 从GeoServer加载要素数据
+/**
+ * @param none
+ * @returns GeoJSON.FeatureCollection
+ */
 export const loadFeatures = async (): Promise<GeoJSON.FeatureCollection> => {
   const url = `${baseURL}/wfs`
   // WFS GetFeature请求参数
