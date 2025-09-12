@@ -3,6 +3,8 @@ package com.example.fire_hydrant_management.interceptor;
 import com.example.fire_hydrant_management.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
+
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
@@ -18,7 +20,19 @@ public class TokenInterceptor implements HandlerInterceptor {
         }
 
         // 从请求头获取Token
-        String token = request.getHeader("Authorization");
+//        String token = request.getHeader("Authorization");
+        // 从Cookie获取Token（替代从Header获取）
+        // 从Cookie获取Token（替代从Header获取）
+        String token = null;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("jwt-token".equals(cookie.getName())) {
+                    token = cookie.getValue();
+                    break;
+                }
+            }
+        }
         if (token == null || !jwtUtils.validateToken(token)) {
             // Token无效或不存在，返回401
             response.setContentType("application/json;charset=UTF-8");

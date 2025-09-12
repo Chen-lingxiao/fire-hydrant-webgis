@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/index'
 import { User } from '@element-plus/icons-vue'
+import request from '@/utils/request'
 const userStore = useUserStore()
 const route = useRoute() // 获取当前路由信息
 const router = useRouter() // 用于编程式导航
@@ -21,10 +22,23 @@ const activeMenu = computed(() => {
   }
 })
 // 退出登录
-const logout = () => {
-  userStore.clearUserInfo() // 清空用户信息
-  // 跳转到登录页面
-  router.push('/login')
+// 调用后端退出接口，由后端清除Cookie
+// const logout = () => {
+//   userStore.clearUserInfo() // 清空用户信息
+//   // 跳转到登录页面
+//   router.push('/login')
+// }
+// 退出登录方法
+const logout = async () => {
+  try {
+    // 调用后端退出接口，由后端清除Cookie
+    await request.post('/users/logout')
+    userStore.clearUserInfo()
+    router.push('/login')
+    ElMessage.success('退出成功')
+  } catch (error) {
+    ElMessage.error('退出失败', error)
+  }
 }
 const toInfo = () => {
   router.push(`/user/${userStore.userInfo?.id}`)

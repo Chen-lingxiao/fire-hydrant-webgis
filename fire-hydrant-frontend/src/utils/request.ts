@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useUserStore } from '@/stores/index'
+// import { useUserStore } from '@/stores/index'
 import router from '@/router'
 const request = axios.create({
   baseURL: 'http://localhost:8080', // 基础路径
@@ -8,16 +8,18 @@ const request = axios.create({
     // 请求头
     'Content-Type': 'application/json', // 默认请求头
   },
+  withCredentials: true, // 核心：允许跨域请求携带Cookie
 })
 // 请求拦截器
+// 删除请求拦截器中的Token添加逻辑（不再需要手动设置Authorization头）
 request.interceptors.request.use(
   (config) => {
     // 在发送请求之前做些什么
-    // 添加token 从用户userStore中获取
-    const userStore = useUserStore()
-    if (userStore.token) {
-      config.headers.Authorization = userStore.token
-    }
+    // // 添加token 从用户userStore中获取
+    // const userStore = useUserStore()
+    // if (userStore.token) {
+    //   config.headers.Authorization = userStore.token
+    // }
     return config
   },
   (error) => {
@@ -42,8 +44,8 @@ request.interceptors.response.use(
     // 特殊情况 权限不足 token过期
     if (error.response && error.response.status === 401) {
       ElMessage.error('登录已过期，请重新登录')
-      const userStore = useUserStore()
-      userStore.setToken('') // 清空token
+      // const userStore = useUserStore()
+      // userStore.setToken('') // 清空token
       // 可选：跳转到登录页
       router.push('/login')
     }

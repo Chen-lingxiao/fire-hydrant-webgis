@@ -81,8 +81,9 @@ const handleLogin = async () => {
 
     if (response.data.code === 200) {
       // 存储用户信息和token
+      //  // 无需存储token到userStore，Cookie已由浏览器自动保存
       userStore.setUserInfo(response.data.data)
-      userStore.setToken(response.data.token)
+      // userStore.setToken(response.data.token)
       ElMessage.success(response.data.message)
       // 登录成功跳转到地图页面
       router.push('/map')
