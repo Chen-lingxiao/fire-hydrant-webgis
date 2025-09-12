@@ -24,7 +24,7 @@ const router = createRouter({
           children: [
             // 用户信息页面
             {
-              path: '/user/info',
+              path: '/user/:id',
               name: 'UserInfo',
               component: () => import('@/views/user/children/UserInfo.vue'),
             },

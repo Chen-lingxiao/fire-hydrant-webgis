@@ -27,7 +27,7 @@ const logout = () => {
   router.push('/login')
 }
 const toInfo = () => {
-  router.push('/user/info')
+  router.push(`/user/${userStore.userInfo?.id}`)
 }
 const toRepwd = () => {
   router.push('/user/repassword')
