@@ -8,7 +8,7 @@ Based on the repository structure and components provided, here's the README.md 
 
 开发流程文档为语雀导出，转md格式稍微有点问题，语雀在线：
 
-学习笔记：https://www.yuque.com/lingxiao-yugup/cm3baa/qx65v581uqtvzhs9?singleDoc# 《OpenLayers》 密码：blgs
+学习笔记：https://www.yuque.com/lingxiao-yugup/cm3baa?# 《WebGIS》 密码：blgs
 
 开发手册：https://www.yuque.com/lingxiao-yugup/cm3baa/ylx3vrpvlhx65kuc?singleDoc# 《开发手册》 密码：blgs
 
