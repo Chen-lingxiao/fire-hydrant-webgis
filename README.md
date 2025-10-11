@@ -58,8 +58,11 @@
 ## 页面预览
 
 ### PC端
+- **地图页面**：
 <img width="1631" height="748" alt="image" src="https://github.com/user-attachments/assets/dffc1885-a1dc-40f9-b7ad-a2608f8dbbf4" />
+- **控制台**：
 <img width="1631" height="744" alt="image" src="https://github.com/user-attachments/assets/cadbeb1e-9a3b-4642-ac6d-ac7230b254a7" />
+- **个人中心**：
 <img width="1631" height="745" alt="image" src="https://github.com/user-attachments/assets/a765db86-6562-433a-979e-c803f410e108" />
 
 ### 小程序端
@@ -72,6 +75,8 @@
 <img width="318" height="671" alt="上报" src="https://github.com/user-attachments/assets/8267c78b-6e5b-407b-b6f9-ab89f9dde03d" />
 
 - **个人中心**：用户注册登录、个人资料、上报记录
+<img width="318" height="665" alt="注册" src="https://github.com/user-attachments/assets/025b3e1c-d638-4cf1-935f-27291f63f64a" />
+
 <img width="314" height="677" alt="个人信息" src="https://github.com/user-attachments/assets/7b7ccc4e-c1ca-4ab3-bbb8-9301e5bb9763" />
 <img width="318" height="677" alt="记录" src="https://github.com/user-attachments/assets/bc14f519-87c3-425a-ab9f-dc5be55fed14" />
 
