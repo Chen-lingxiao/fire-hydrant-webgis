@@ -1,4 +1,4 @@
-Based on the repository structure and components provided, here's the README.md content for the project:
+<img width="1631" height="748" alt="image" src="https://github.com/user-attachments/assets/fe5cac05-51a9-4bad-ae3f-0b66c4e040aa" />Based on the repository structure and components provided, here's the README.md content for the project:
 
 ---
 
@@ -54,6 +54,17 @@ Based on the repository structure and components provided, here's the README.md 
 - **RESTful API**：提供标准化接口供前端调用。
 - **MyBatis Plus集成**：简化数据库操作。
 - **跨域支持**：允许前端与后端跨域通信。
+
+## 页面预览
+
+<img width="1631" height="748" alt="image" src="https://github.com/user-attachments/assets/dffc1885-a1dc-40f9-b7ad-a2608f8dbbf4" />
+<img width="1631" height="744" alt="image" src="https://github.com/user-attachments/assets/cadbeb1e-9a3b-4642-ac6d-ac7230b254a7" />
+<img width="1631" height="745" alt="image" src="https://github.com/user-attachments/assets/a765db86-6562-433a-979e-c803f410e108" />
+<img width="366" height="764" alt="image" src="https://github.com/user-attachments/assets/e857e79c-ccce-475e-9c91-565e6ac2d024" />
+<img width="414" height="876" alt="image" src="https://github.com/user-attachments/assets/c758942a-091e-437e-98ea-b6535bb6f8f2" />
+<img width="343" height="717" alt="image" src="https://github.com/user-attachments/assets/ca61ecf8-0125-4f42-beb1-b8e2aba1493c" />
+<img width="320" height="681" alt="image" src="https://github.com/user-attachments/assets/88f47d8b-6fce-44a1-bf45-18f23d584f2d" />
+
 
 ## 安装与部署
 
