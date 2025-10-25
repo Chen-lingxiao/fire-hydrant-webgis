@@ -122,7 +122,7 @@ const toRepwd = () => {
 /* 导航栏 */
 .header-nav {
   margin-right: 10px;
-  width: 350px;
+  width: 430px;
 }
 .el-dropdown {
   display: flex;
