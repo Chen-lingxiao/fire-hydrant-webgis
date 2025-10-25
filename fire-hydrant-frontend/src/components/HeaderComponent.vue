@@ -11,12 +11,14 @@ const router = useRouter() // 用于编程式导航
 // 计算属性：应该激活的顶级菜单项
 const activeMenu = computed(() => {
   const path = route.path
-  if (path.includes('/map')) {
-    return '/map'
+  if (path.includes('/mapbox')) {
+    return '/mapbox'
   } else if (path.includes('/dashboard')) {
     return '/dashboard'
   } else if (path.includes('/user')) {
     return '/user'
+  } else if (path.includes('/cesium')) {
+    return '/cesium'
   } else {
     return path
   }
@@ -58,7 +60,8 @@ const toRepwd = () => {
     <!-- 菜单栏 -->
     <div class="header-nav">
       <el-menu mode="horizontal" :default-active="activeMenu" router>
-        <el-menu-item index="/map">首页</el-menu-item>
+        <el-menu-item index="/mapbox">mapbox</el-menu-item>
+        <el-menu-item index="/cesium">cesium</el-menu-item>
         <el-menu-item index="/dashboard">控制台</el-menu-item>
         <!-- 主题开关（示例：控制深色模式） -->
         <!-- <div class="header-actions">

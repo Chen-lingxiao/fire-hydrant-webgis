@@ -4,14 +4,9 @@ import {
 } from '@vue/eslint-config-typescript'
 import { globalIgnores } from 'eslint/config'
 import pluginVue from 'eslint-plugin-vue'
-import vuePrettier from '@vue/eslint-config-prettier'
+import skipFormatting from '@vue/eslint-config-prettier/skip-formatting'
 import globals from 'globals'
-
-// To allow more languages other than `ts` in `.vue` files, uncomment the following lines:
-// import { configureVueProject } from '@vue/eslint-config-typescript'
-// configureVueProject({ scriptLangs: ['ts', 'tsx'] })
-// More info at https://github.com/vuejs/eslint-config-typescript/#advanced-setup
-
+import pluginPrettier from 'eslint-plugin-prettier'
 export default defineConfigWithVueTs(
   {
     name: 'app/files-to-lint',
@@ -35,11 +30,15 @@ export default defineConfigWithVueTs(
 
   pluginVue.configs['flat/essential'],
   vueTsConfigs.recommended,
-  // skipFormatting,
-  vuePrettier, // 集成Prettier
-  // 自定义规则
+  skipFormatting,
+
   {
+    plugins: {
+      prettier: pluginPrettier,
+    },
+    // 自定义规则
     rules: {
+      'prettier/prettier': ['warn', { usePrettierrc: true }],
       //  Vue 组件命名需遵循多单词命名规则，'warn'表示当违反此规则时给出警告提示
       // { ignores: ['index'] }表示名为index的组件可忽略此规则检查
       'vue/multi-word-component-names': ['warn', { ignores: ['Index'] }],

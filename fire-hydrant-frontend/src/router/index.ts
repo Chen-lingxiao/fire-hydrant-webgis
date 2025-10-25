@@ -60,11 +60,17 @@ const router = createRouter({
             },
           ],
         },
-        // 地图页面路由
+        // mapbox 地图页面路由
         {
-          path: '/map',
-          name: 'map',
-          component: () => import('@/views/map/MapPage.vue'),
+          path: '/mapbox',
+          name: 'mapbox',
+          component: () => import('@/views/mapbox/MapboxPage.vue'),
+        },
+        // cesium地图页面路由
+        {
+          path: '/cesium',
+          name: 'cesium',
+          component: () => import('@/views/cesium/CesiumPage.vue'),
         },
       ],
     },
@@ -90,7 +96,7 @@ router.beforeEach((to, from, next) => {
     next('/login')
   } else if (to.path === '/login' && userStore.isLogin) {
     // 已登录但访问登录页，跳转到地图页
-    next('/map')
+    next('/mapbox')
   } else if (to.matched.some((record) => record.meta.requiresAdmin)) {
     // 访问需要管理员权限的页面
     if (userStore.isAdmin()) {
@@ -99,7 +105,7 @@ router.beforeEach((to, from, next) => {
     } else {
       // 不是管理员，提示无权限并跳转到地图页
       ElMessage.error('无权限访问该页面')
-      next('/map')
+      next('/mapbox')
     }
   } else {
     // 其他情况，正常访问

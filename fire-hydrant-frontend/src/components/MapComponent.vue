@@ -932,6 +932,14 @@ onMounted(() => {
     addTiandituSourceAndLayer('vector')
     loadGeoJSONData() // 加载消防栓数据
     initECharts() // 初始化 echarts 图表
+    map?.setFog({})
+    map?.addSource('mapbox-dem', {
+      type: 'raster-dem',
+      url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
+      tileSize: 512,
+      maxzoom: 14,
+    })
+    map?.setTerrain({ source: 'mapbox-dem', exaggeration: 1.5 })
   })
   map.on('error', (e) => {
     if (e.error && e.error.message && e.error.message.includes('aborted')) {
