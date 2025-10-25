@@ -1,4 +1,4 @@
-<img width="1631" height="748" alt="image" src="https://github.com/user-attachments/assets/fe5cac05-51a9-4bad-ae3f-0b66c4e040aa" />Based on the repository structure and components provided, here's the README.md content for the project:
+![示例图片](系统截图/mapbox页面.png) 
 
 ---
 
