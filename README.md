@@ -59,28 +59,28 @@
 
 ### PC端
 - **地图页面**：
-<img width="1631" height="748" alt="image" src="https://github.com/user-attachments/assets/dffc1885-a1dc-40f9-b7ad-a2608f8dbbf4" />
+![示例图片](系统截图/mapbox页面.png) 
 
 - **控制台**：
-<img width="1631" height="744" alt="image" src="https://github.com/user-attachments/assets/cadbeb1e-9a3b-4642-ac6d-ac7230b254a7" />
+![示例图片](系统截图/用户信息表.png) 
 
 - **个人中心**：
-<img width="1631" height="745" alt="image" src="https://github.com/user-attachments/assets/a765db86-6562-433a-979e-c803f410e108" />
+![示例图片](系统截图/个人中心.png) 
 
 ### 小程序端
 
 - **首页**：图层控制、要素展示、按范围查询要素、地图定位
-<img width="318" height="677" alt="地图信息" src="https://github.com/user-attachments/assets/a859ceae-d513-4996-bc7d-dd114327596d" />
-<img width="318" height="673" alt="信息查询" src="https://github.com/user-attachments/assets/6df7f5fa-519b-4652-bb6c-30f59d0bd366" />
+![示例图片](系统截图/小程序-地图展示.png)
+![示例图片](系统截图/小程序-地图搜索.png) 
 
 - **故障上报**：消防栓故障上报
-<img width="318" height="671" alt="上报" src="https://github.com/user-attachments/assets/8267c78b-6e5b-407b-b6f9-ab89f9dde03d" />
+![示例图片](系统截图/小程序-故障上报.png) 
 
 - **个人中心**：用户注册登录、个人资料、上报记录
-<img width="318" height="665" alt="注册" src="https://github.com/user-attachments/assets/025b3e1c-d638-4cf1-935f-27291f63f64a" />
+![示例图片](系统截图/小程序-登录.png) 
 
-<img width="314" height="677" alt="个人信息" src="https://github.com/user-attachments/assets/7b7ccc4e-c1ca-4ab3-bbb8-9301e5bb9763" />
-<img width="318" height="677" alt="记录" src="https://github.com/user-attachments/assets/bc14f519-87c3-425a-ab9f-dc5be55fed14" />
+![示例图片](系统截图/小程序-个人信息.png) 
+![示例图片](系统截图/小程序-上报记录.png) 
 
 ## 安装与部署
 
